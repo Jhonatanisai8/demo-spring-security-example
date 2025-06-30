@@ -29,11 +29,28 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final DemoSpringSecurityExampleApplication demoSpringSecurityExampleApplication;
 
-    SecurityConfig(DemoSpringSecurityExampleApplication demoSpringSecurityExampleApplication) {
-        this.demoSpringSecurityExampleApplication = demoSpringSecurityExampleApplication;
-    }
+    /*
+     * @Bean
+     * public SecurityFilterChain securityFilterChain(HttpSecurity hSecurity) throws
+     * Exception {
+     * return hSecurity
+     * .csrf(csrf -> csrf.disable())
+     * .httpBasic(Customizer.withDefaults())
+     * .sessionManagement(sesion ->
+     * sesion.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+     * .authorizeHttpRequests(http -> {
+     * // configuras los endpoints publicos
+     * http.requestMatchers(HttpMethod.GET, "/api/v1/auth/hola").permitAll();
+     * // configuras los endpoint privados
+     * http.requestMatchers(HttpMethod.GET,
+     * "/api/v1/auth/hola-seguro").hasAnyAuthority("CREATED");
+     * // configurar el resto de endpoint no especificados
+     * http.anyRequest().denyAll();
+     * })
+     * .build();
+     * }
+     */
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity hSecurity) throws Exception {
@@ -41,14 +58,6 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(sesion -> sesion.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(http -> {
-                    // configuras los endpoints publicos
-                    http.requestMatchers(HttpMethod.GET, "/api/v1/auth/hola").permitAll();
-                    // configuras los endpoint privados
-                    http.requestMatchers(HttpMethod.GET, "/api/v1/auth/hola-seguro").hasAnyAuthority("CREATED");
-                    // configurar el resto de endpoint no especificados
-                    http.anyRequest().denyAll();
-                })
                 .build();
     }
 
