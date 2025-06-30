@@ -21,7 +21,8 @@ public class TestAuthController {
     public String holaMundoSeguro() {
         return "Hola Mundo";
     }
-
+    
+    @PreAuthorize("hasAnyAuthority('CREATED')")
     @RequestMapping(path = "/hola-seguro2", method = RequestMethod.GET)
     public String holaMundoSeguro2() {
         return "Hola Mundo";
