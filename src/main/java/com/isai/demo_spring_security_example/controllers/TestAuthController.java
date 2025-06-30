@@ -18,4 +18,9 @@ public class TestAuthController {
         return "Hola Mundo";
     }
 
+    @RequestMapping(path = "/hola-seguro2", method = RequestMethod.GET)
+    public String holaMundoSeguro2() {
+        return "Hola Mundo";
+    }
+
 }

@@ -3,6 +3,7 @@ package com.isai.demo_spring_security_example.config;
 import java.util.Arrays;
 import java.util.List;
 
+import com.isai.demo_spring_security_example.DemoSpringSecurityExampleApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -28,6 +29,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    private final DemoSpringSecurityExampleApplication demoSpringSecurityExampleApplication;
+
+    SecurityConfig(DemoSpringSecurityExampleApplication demoSpringSecurityExampleApplication) {
+        this.demoSpringSecurityExampleApplication = demoSpringSecurityExampleApplication;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity hSecurity) throws Exception {
         return hSecurity
@@ -35,9 +42,12 @@ public class SecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(sesion -> sesion.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(http -> {
+                    // configuras los endpoints publicos
                     http.requestMatchers(HttpMethod.GET, "/api/v1/auth/hola").permitAll();
+                    // configuras los endpoint privados
                     http.requestMatchers(HttpMethod.GET, "/api/v1/auth/hola-seguro").hasAnyAuthority("CREATED");
-                    http.anyRequest().denyAll(); // =>
+                    // configurar el resto de endpoint no especificados
+                    http.anyRequest().denyAll();
                 })
                 .build();
     }
