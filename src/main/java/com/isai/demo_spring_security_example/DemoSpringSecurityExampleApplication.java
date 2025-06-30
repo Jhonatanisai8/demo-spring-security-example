@@ -32,7 +32,7 @@ public class DemoSpringSecurityExampleApplication {
 					.nombrePermiso("READ")
 					.build();
 			Permiso permisoEliminar = Permiso.builder()
-					.nombrePermiso("UPDATE")
+					.nombrePermiso("UPDATE") 
 					.build();
 			Permiso permisoActualizar = Permiso.builder()
 					.nombrePermiso("DELETE")
