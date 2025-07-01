@@ -3,10 +3,12 @@ package com.isai.demo_spring_security_example;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.isai.demo_spring_security_example.persistences.entity.Permiso;
 import com.isai.demo_spring_security_example.persistences.entity.Roles;
@@ -21,18 +23,21 @@ public class DemoSpringSecurityExampleApplication {
 		SpringApplication.run(DemoSpringSecurityExampleApplication.class, args);
 	}
 
+	@Autowired
+	PasswordEncoder passwordEncoder;
+
 	@Bean
 	CommandLineRunner init(UsuarioRepository usuarioRepository) {
 		return args -> {
 			// creamos los permisos
 			Permiso permisoCrear = Permiso.builder()
-					.nombrePermiso("CREAR")
+					.nombrePermiso("CREATE")
 					.build();
 			Permiso permisoLeer = Permiso.builder()
 					.nombrePermiso("READ")
 					.build();
 			Permiso permisoEliminar = Permiso.builder()
-					.nombrePermiso("UPDATE") 
+					.nombrePermiso("UPDATE")
 					.build();
 			Permiso permisoActualizar = Permiso.builder()
 					.nombrePermiso("DELETE")
@@ -65,7 +70,7 @@ public class DemoSpringSecurityExampleApplication {
 			// creacion de usuarios
 			Usuario usuarioJhonatan = Usuario.builder()
 					.nombreUsuario("jhona_admin")
-					.password("jhona_admin")
+					.password(passwordEncoder.encode("jhona_admin"))
 					.estaHabilitada(true)
 					.cuentaAspirada(true)
 					.cuentaBloqueda(true)
@@ -75,7 +80,7 @@ public class DemoSpringSecurityExampleApplication {
 
 			Usuario usuarioDaniel = Usuario.builder()
 					.nombreUsuario("daniel_usuario")
-					.password("daniel_usuario")
+					.password(passwordEncoder.encode("daniel_usuario"))
 					.estaHabilitada(true)
 					.cuentaAspirada(true)
 					.cuentaBloqueda(true)
@@ -85,7 +90,7 @@ public class DemoSpringSecurityExampleApplication {
 
 			Usuario usuarioAndrea = Usuario.builder()
 					.nombreUsuario("andrea_invitada")
-					.password("andrea_invitada")
+					.password(passwordEncoder.encode("andrea_invitada"))
 					.estaHabilitada(true)
 					.cuentaAspirada(true)
 					.cuentaBloqueda(true)
@@ -95,7 +100,7 @@ public class DemoSpringSecurityExampleApplication {
 
 			Usuario usuarioAnyi = Usuario.builder()
 					.nombreUsuario("anyi_desarollador")
-					.password("anyi_desarollador")
+					.password(passwordEncoder.encode("anyi_desarollador"))
 					.estaHabilitada(true)
 					.cuentaAspirada(true)
 					.cuentaBloqueda(true)
@@ -104,7 +109,7 @@ public class DemoSpringSecurityExampleApplication {
 					.build();
 
 			usuarioRepository.saveAll(List.of(usuarioAndrea, usuarioAnyi, usuarioDaniel, usuarioJhonatan));
-
 		};
 	}
+
 }
