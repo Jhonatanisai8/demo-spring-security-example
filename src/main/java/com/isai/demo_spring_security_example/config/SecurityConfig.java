@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.isai.demo_spring_security_example.DemoSpringSecurityExampleApplication;
+import com.isai.demo_spring_security_example.service.UserDetailServiceImpl;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -28,7 +30,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-
 
     /*
      * @Bean
@@ -68,10 +69,10 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider() {
+    public AuthenticationProvider authenticationProvider(UserDetailServiceImpl detailServiceImpl) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder());
-        provider.setUserDetailsService(userDetailsService());
+        provider.setUserDetailsService(detailServiceImpl);
         return provider;
     }
 
